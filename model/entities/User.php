@@ -13,7 +13,7 @@ final class User extends Entity{
     private $nickName;
     private $password; // bonne idée ???
     private $email;
-    private $creationDate; //<- pas de setter, valeur attribué par la BDD lors de la création.
+    private $creationDate;
     private $role;
 
 
@@ -74,6 +74,13 @@ final class User extends Entity{
         return $this->creationDate;
     }
 
+    /**
+     * set creationDate
+     */
+    public function setCreationDate($newDate){
+        $this->creationDate = $newDate;
+        return $this;
+    }
 
     /**
      * Get the value of id

@@ -7,25 +7,11 @@ use App\Entity;
 /***************
  * 
  * 
- *  sanitization des setters ??
+ *  setters' sanitization ??
  * 
- * 
- * 
- * 
- * 
+ *  
  * 
  */
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -35,16 +21,24 @@ use App\Entity;
 final class Message extends Entity{
 
     private $id;
-    private $creationDate; //<- pas de setter, valeur attribué par la BDD lors de la création.
+    private $creationDate; 
     private $content;
-    private $topic; // bonne idée ???
-    private $user; // bonne idée ???
+    private $topic;
+    private $user;
 
 
     public function __construct($data){         
         $this->hydrate($data);                    // app/entity.php : User EXTENDS entity
     }
     
+
+    /**
+     * set CreationDate
+     */
+    public function setCreationDate($newDate){
+        $this->creationDate = $newCreationDate;
+        return $this;
+    }
     
     /**
      * get CreationDate

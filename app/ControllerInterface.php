@@ -16,24 +16,3 @@ interface ControllerInterface{          // polymorphism
 
     public function index();
 }
-
-
-
-
-/*********
- * 
- * 
- *  on déclare index, qu'on retrouve implémenté dans les contrôlers. Quel intérêts ?
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */

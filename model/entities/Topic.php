@@ -14,7 +14,7 @@ final class Topic extends Entity{
     private $user;
     private $category;
     private $creationDate;
-    private $closed;
+    private $closed; // set/get manquant
 
     public function __construct($data){         
         $this->hydrate($data);        
