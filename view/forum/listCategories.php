@@ -6,8 +6,20 @@
 
 <?php
 foreach($categories as $category ){ ?>
-    <p><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></p>
+    <div class="Box">
+        <p><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></p>
+    </div>
 <?php }
+?>
+
+<div class="adder">
+    <form action="index.php?ctrl=forum&add" method="post">
+        <label for="newCategory">Créer une nouvelle catégorie: </label>
+            <input type='text' name="newCategory" value='ex: peinture'></input>
+            <input type='submit' value='add'></input>
+    </form>
+</div>
+
 
 
   

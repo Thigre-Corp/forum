@@ -12,7 +12,7 @@ foreach($messages as $message ){
     
     //var_dump($message);
     ?>
-    <div class="msgBox">
+    <div class="Box">
         <p><?= $message->getContent() ?>  par <?= $message->getUser() ?></p>
 </div>
 <?php }

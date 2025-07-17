@@ -10,5 +10,7 @@ foreach($topics as $topic ){
     
     //var_dump($topic);
 ?>
-    <p><a href="index.php?ctrl=forum&action=listMessagesByTopic&id=<?= $topic->getId() ?>"> <?= $topic ?></a> par <?= $topic->getUser() ?></p>
+    <div class="Box">
+        <p><a href="index.php?ctrl=forum&action=listMessagesByTopic&id=<?= $topic->getId() ?>"> <?= $topic ?></a> par <?= $topic->getUser() ?></p>
+    </div>
 <?php }

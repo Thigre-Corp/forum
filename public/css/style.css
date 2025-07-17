@@ -8,8 +8,14 @@ h1 {
     color: rgb(0, 122, 156);
 }
 
-.msgBox{
+.Box{
     border: 1px solid black;
     width: 80%;
     margin-bottom: 1em;
+}
+
+
+footer{
+    position: fixed;
+    bottom: 0;
 }

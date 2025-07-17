@@ -65,4 +65,10 @@ class ForumController extends AbstractController implements ControllerInterface{
 
 
     }
+
+    public function addCategory(){
+        $categoryManager = new CategoryManager();
+        catego
+*****************************************************************************
+    }
 }
