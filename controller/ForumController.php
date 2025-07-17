@@ -32,7 +32,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
-        $topics = $topicManager->findTopicsByCategory($id);
+        $topics = $topicManager->findTopicsByCategory($id); // pas sûr que çà retourne quoi que ce soit d'exploitable... GENERATOR [6] ???.???.?
 
         return [
             "view" => VIEW_DIR."forum/listTopics.php",

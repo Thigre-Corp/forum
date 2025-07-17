@@ -7,3 +7,9 @@
 h1 {
     color: rgb(0, 122, 156);
 }
+
+.msgBox{
+    border: 1px solid black;
+    width: 80%;
+    margin-bottom: 1em;
+}

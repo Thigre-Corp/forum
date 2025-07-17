@@ -35,7 +35,7 @@ final class Message extends Entity{
     /**
      * set CreationDate
      */
-    public function setCreationDate($newDate){
+    public function setCreationDate($newCreationDate){
         $this->creationDate = $newCreationDate;
         return $this;
     }
@@ -59,7 +59,7 @@ final class Message extends Entity{
      * set Content
      */
     public function setContent($newContent){
-        $this->content = $newRole;
+        $this->content = $newContent;
         return $this;
     }
 
