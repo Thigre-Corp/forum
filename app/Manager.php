@@ -75,6 +75,14 @@ abstract class Manager{
         return DAO::delete($sql, ['id' => $id]); 
     }
 
+    public function getLastInsertId(){
+        $sql = 'SELECT LAST_INSERT_ID()';
+        //$lastIdArray= 
+        return DAO::select($sql, null, false)['LAST_INSERT_ID()'];
+
+
+    }
+
     private function generate($rows, $class){
         foreach($rows as $row){
             yield new $class($row);

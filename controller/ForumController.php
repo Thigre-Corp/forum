@@ -48,16 +48,16 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
-        $topics = $topicManager->findTopicsByCategory($id);
-        $messageManager = new MessageManager();//*********************************************not found... USE ? */
-        $messages = $messageManager->findMessagesByTopic($id); //**************************voir ici */
+        $topics = $topicManager->findOneById($id);
+        $messageManager = new MessageManager();
+        $messages = $messageManager->findMessagesByTopic($id);
 
         return [
             "view" => VIEW_DIR."forum/listMessages.php",
             "meta_description" => "Liste des messages par topic : ".$category,
             "data" => [
                 "category" => $category,
-                "topics" => $topics,
+                "topic" => $topics,
                 "messages" => $messages
             ]
         ];
@@ -65,10 +65,96 @@ class ForumController extends AbstractController implements ControllerInterface{
 
 
     }
-
+//fonction ajout nouvelle catégorie
     public function addCategory(){
         $categoryManager = new CategoryManager();
-        catego
-*****************************************************************************
+        $newCatValue = filter_var($_POST['newCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $data = ['name' => $newCatValue];
+        $categoryManager->add($data);
+        $categories = $categoryManager->findAll(["name", "DESC"]);
+        // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
+        return [
+            "view" => VIEW_DIR."forum/listCategories.php",
+            "meta_description" => "Liste des catégories du forum",
+            "data" => [
+                "categories" => $categories
+            ]
+        ];
     }
+//fonction ajout nouveau topic
+    public function addTopicToCategory($id){
+        $topicManager = new TopicManager();
+        $categoryManager = new CategoryManager();
+        $messageManager = new MessageManager();
+    //le temps d'ajouter la session, l'user par défaut sera l'ID #1    
+        $userId = 1;
+        $title = filter_var($_POST['newTopicTitle'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $messageContent = filter_var($_POST['newTopicMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+    // création du topic
+        $data = [
+            'category_id' => $id ,
+            'title' => $title ,
+            'user_id' => $userId
+        ];
+        $topicManager->add($data);
+        $topicId = $topicManager->getLastInsertId();
+    // création du 1er message du topic fraichement créé
+        $data = [
+            'content' => $messageContent,
+            'topic_id' => $topicId,
+            'user_id' => $userId
+        ];
+        $messageManager->add($data);
+    // affichage view        
+        $category = $categoryManager->findOneById($id);
+        $topics = $topicManager->findTopicsByCategory($id); // pas sûr que çà retourne quoi que ce soit d'exploitable... GENERATOR [6] ???.???.?
+
+        return [
+            "view" => VIEW_DIR."forum/listTopics.php",
+            "meta_description" => "Liste des topics par catégorie : ".$category,
+            "data" => [
+                "category" => $category,
+                "topics" => $topics
+            ]
+        ];
+
+    }
+// ajout d'un message dans un topic existant:
+    public function addMessageToTopic($id){
+        $categoryManager = new CategoryManager();
+        $topicManager = new TopicManager();
+        $messageManager = new MessageManager();
+        $topic = $topicManager->findOneById($id);
+    //le temps d'ajouter la session, l'user par défaut sera l'ID #1    
+        $userId = 1;
+        $messageContent = filter_var($_POST['newMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
+    // création du message du topic fraichement créé
+        $data = [
+            'content' => $messageContent,
+            'topic_id' => $id,
+            'user_id' => $userId
+        ];
+        $messageManager->add($data);
+    // affichage view        
+        $messages = $messageManager->findMessagesByTopic($id);
+
+        return [
+            "view" => VIEW_DIR."forum/listMessages.php",
+            "meta_description" => "Liste des messages par topic : ".$topic,
+            "data" => [
+                //"category" => $category,
+                "topic" => $topic,
+                "messages" => $messages
+            ]
+        ];
+
+
+
+
+    }
+
+
+
+
 }

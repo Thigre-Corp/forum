@@ -13,7 +13,7 @@ foreach($categories as $category ){ ?>
 ?>
 
 <div class="adder">
-    <form action="index.php?ctrl=forum&add" method="post">
+    <form action="index.php?ctrl=forum&action=addCategory" method="post">
         <label for="newCategory">Créer une nouvelle catégorie: </label>
             <input type='text' name="newCategory" value='ex: peinture'></input>
             <input type='submit' value='add'></input>
