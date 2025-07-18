@@ -48,16 +48,16 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
         $category = $categoryManager->findOneById($id);
-        $topics = $topicManager->findOneById($id);
+        $topic = $topicManager->findOneById($id);
         $messageManager = new MessageManager();
         $messages = $messageManager->findMessagesByTopic($id);
 
         return [
             "view" => VIEW_DIR."forum/listMessages.php",
-            "meta_description" => "Liste des messages par topic : ".$category,
+            "meta_description" => "Liste des messages par topic : ".$topic->getTilte(),
             "data" => [
                 "category" => $category,
-                "topic" => $topics,
+                "topic" => $topic,
                 "messages" => $messages
             ]
         ];
@@ -90,7 +90,6 @@ class ForumController extends AbstractController implements ControllerInterface{
         $userId = 1;
         $title = filter_var($_POST['newTopicTitle'], FILTER_SANITIZE_SPECIAL_CHARS);
         $messageContent = filter_var($_POST['newTopicMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
-
     // création du topic
         $data = [
             'category_id' => $id ,
@@ -120,6 +119,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         ];
 
     }
+
 // ajout d'un message dans un topic existant:
     public function addMessageToTopic($id){
         $categoryManager = new CategoryManager();
@@ -148,13 +148,6 @@ class ForumController extends AbstractController implements ControllerInterface{
                 "messages" => $messages
             ]
         ];
-
-
-
-
     }
-
-
-
 
 }
