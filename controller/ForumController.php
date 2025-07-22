@@ -85,11 +85,11 @@ class ForumController extends AbstractController implements ControllerInterface{
     public function addTopicToCategory($id){
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
-        $messageManager = new MessageManager();
+        //$messageManager = new MessageManager();
     //le temps d'ajouter la session, l'user par défaut sera l'ID #1    
-        $userId = 1;
+        $userId = Session::getUser()->getId();
         $title = filter_var($_POST['newTopicTitle'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $messageContent = filter_var($_POST['newTopicMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
+       // $messageContent = filter_var($_POST['newTopicMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
     // création du topic
         $data = [
             'category_id' => $id ,
@@ -99,12 +99,12 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topicManager->add($data);
         $topicId = $topicManager->getLastInsertId();
     // création du 1er message du topic fraichement créé
-        $data = [
+/*         $data = [
             'content' => $messageContent,
             'topic_id' => $topicId,
             'user_id' => $userId
         ];
-        $messageManager->add($data);
+        $messageManager->add($data); */
     // affichage view        
         $category = $categoryManager->findOneById($id);
         $topics = $topicManager->findTopicsByCategory($id); // pas sûr que çà retourne quoi que ce soit d'exploitable... GENERATOR [6] ???.???.?
@@ -127,7 +127,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $messageManager = new MessageManager();
         $topic = $topicManager->findOneById($id);
     //le temps d'ajouter la session, l'user par défaut sera l'ID #1    
-        $userId = 1;
+        $userId = Session::getUser()->getId();
         $messageContent = filter_var($_POST['newMessage'], FILTER_SANITIZE_SPECIAL_CHARS);
     // création du message du topic fraichement créé
         $data = [

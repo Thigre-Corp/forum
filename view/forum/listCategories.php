@@ -10,6 +10,11 @@ foreach($categories as $category ){ ?>
         <p><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $category->getId() ?>"><?= $category->getName() ?></a></p>
     </div>
 <?php }
+
+
+
+if (App\Session::isAdmin()){
+
 ?>
 
 <div class="adder">
@@ -20,6 +25,5 @@ foreach($categories as $category ){ ?>
     </form>
 </div>
 
-
-
-  
+<?php
+}

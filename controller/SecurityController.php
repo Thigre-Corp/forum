@@ -32,19 +32,27 @@ class SecurityController extends AbstractController{
         $pass1= filter_input(INPUT_POST, "pass1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if ($pseudo && $pass1){
-            $sql = "
-                SELECT *
-                FROM user
-                WHERE nickName = :pseudo
-                ";
-            $userData = DAO::select($sql, [":pseudo" => $pseudo], false );
 
-            if(password_verify($pass1, $userData['password'])){                 // là, nous sommes connectés.. on démarre la session ?
-                Session::setUser($userData);
+         $user=   $userManager->findOneByPseudo($pseudo);
+
+
+            // var_dump($user);
+            // die;
+            // $sql = "
+            //     SELECT *
+            //     FROM user
+            //     WHERE nickName = :pseudo
+            //     ";
+            // $userData = DAO::select($sql, [":pseudo" => $pseudo], false );
+           
+
+            if(password_verify($pass1, $user->getPassword())){                 // là, nous sommes connectés.. on démarre la session ?
+                
+                Session::setUser($user);
                 Session::addFlash("success", "user logged In");
                 $this->redirectTo("home");
             }
-            
+
             else{
                 Session::addFlash("error", "loupé!");
                 $this->redirectTo("security", "registerForm");
@@ -62,8 +70,8 @@ class SecurityController extends AbstractController{
 
     public function register(){
         if( empty($_POST)) {
+            Session::addFlash("error", "Inscription ratée, retente ta chance !");
             $this->redirectTo("security", "registerForm");
-            die; // necessaire  ???
         }
 
         $pseudo = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -74,12 +82,12 @@ class SecurityController extends AbstractController{
         if ($pseudo && $email && $pass1 && $pass2){                             // si tout est renseigné
             $userManager = new UserManager() ;
             if ( !$userManager->checkIfExists($email) ){                        // et que l'email n'exisite pas en DB
-                if( $pass1 == $pass2 && strlen($pass1)>=8 ){                   // et que le MDP correspond à la confirmation ET qu'il comporte + de 5 caractères
+                if( $pass1 == $pass2 && strlen($pass1)>=5 ){                   // et que le MDP correspond à la confirmation ET qu'il comporte + de 5 caractères
                     $userManager->add([                                         // alors on l'ajoute en DB
-                        "nickName" => strtolower($pseudo), 
+                        "nickName" => ucfirst(strtolower($pseudo)), 
                         "email" => strtolower($email), 
                         "password" => password_hash($pass1, PASSWORD_DEFAULT),
-                        "role" => json_encode(['ROLE_ADMIN'])
+                        "role" => json_encode(['ROLE_USER'])
                     ]);
                 }
                 else {
@@ -101,69 +109,45 @@ class SecurityController extends AbstractController{
     }
 
     public function logout () {
-        $this->restrictTo("ROLE_USER");
-
+        // $this->restrictTo("ROLE_USER");
         Session::setUser(null);
         Session::addFlash("success", "A bientôt !");
         $this->redirectTo("home");
     }
 
-}
-/***********************************
- * 
- * 
- * 
- * 
-
-
-    public function register(){
-            if(!empty($_POST)){
-                $username = filter_input(INPUT_POST, "username", FILTER_VALIDATE_REGEXP,
-                    array(
-                        "options" => array("regexp"=>'/[A-Za-z0-9]{4,}/')
-                    )
-                );
-                $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-                $pass = filter_input(INPUT_POST, "pass", FILTER_VALIDATE_REGEXP,
-                    array(
-                        "options" => array("regexp"=>'/[A-Za-z0-9]{6,32}/')
-                    )
-                );
-                $passrepeat = filter_input(INPUT_POST, "pass-r", FILTER_SANITIZE_STRING);
-
-                if($username && $email){
-                    if($pass){
-                        if($pass === $passrepeat){
-                            //embeter la base de données
-                            $manager = new UserManager();
-                            if(!$manager->checkUserExists($email)){
-                                $manager->add([
-                                    "username" => strtolower($username),
-                                    "email"    => strtolower($email),
-                                    "password" => password_hash($pass, PASSWORD_ARGON2I),
-                                    "roles"    => json_encode(['ROLE_USER'])
-                                ]); 
-                                Session::addFlash("success", "Inscription réussie, connectez-vous !");
-                                $this->redirectTo("security", "login");
-                            }
-                            else{
-                                Session::addFlash("error", "Cet e-mail existe déjà !");
-                            }
-                        }
-                        else{
-                            Session::addFlash("error", "Les deux mots de passe ne correspondent pas.");
-                        }
-                    }
-                    else{
-                        Session::addFlash("error", "Le mot de passe est invalide.");
-                    }
-                }
-                else{
-                    Session::addFlash("error", "Le pseudo ou l'email sont vides.");
-                }
-            }
-            return [
-                "view" => VIEW_DIR."security/register.php"
-            ];
+    public function profile($id = false){
+        Session::addFlash("success", "ici devrait se trouver la page profile");
+        if (!$id){
+            $id = Session::getUser()->getId();
         }
-*/
+        $userManager = new UserManager();
+        $user = $userManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR."security/profile.php",
+            "meta_description" => "Profil utilisateur ",
+            "data" => [
+                "user" => $user->getAll()
+            ]
+        ];
+    }
+
+
+
+
+    public function users(){
+        Session::addFlash("success", "ici devrait se trouver la fameuse liste des gens");
+
+        $userManager = new UserManager();
+        $users = $userManager->findAll(); 
+        return [
+            "view" => VIEW_DIR."security/listUsers.php",
+            "meta_description" => "Liste des Users ",
+            "data" => [
+                "users" => $users
+            ]
+        ];
+    }
+
+
+}

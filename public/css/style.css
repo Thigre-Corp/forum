@@ -8,6 +8,12 @@ h1 {
     color: rgb(0, 122, 156);
 }
 
+.profile{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+}
+
 .Box{
     border: 1px solid black;
     width: 80%;

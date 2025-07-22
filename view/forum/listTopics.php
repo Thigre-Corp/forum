@@ -29,8 +29,8 @@ else{
     <form action="index.php?ctrl=forum&action=addTopicToCategory&id=<?= $category->getId() ?>" method="post">
         <label for="newTopicTitle">Créer un nouveau topic: </label>
             <input type='text' name="newTopicTitle" value='ex: tournevis'></input>
-        <label for="newTopicMessage">Y inclure le message suivant: </label>
-            <input type='text' name="newTopicMessage" value='ex: message par défaut'></input>
+<!--         <label for="newTopicMessage">Y inclure le message suivant: </label>
+            <input type='text' name="newTopicMessage" value='ex: message par défaut'></input> -->
         <input type='submit' value='add'></input>
     </form>
 </div>

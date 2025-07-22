@@ -26,4 +26,17 @@ class UserManager extends Manager{
             $this->className
         );
     }
+
+    public function findOneByPseudo($pseudo){
+
+        $sql = "
+                SELECT * 
+                FROM ".$this->tableName." t 
+                WHERE t.nickName = :pseudo";
+       
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['pseudo' => $pseudo], false), 
+            $this->className
+        );
+    }
 }

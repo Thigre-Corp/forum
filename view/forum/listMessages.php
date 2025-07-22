@@ -5,7 +5,7 @@
    
 ?>
 
-<h1>Liste des Messages du topic <?= $topic->getTitle() ?> ></h1>
+<h1>Liste des Messages du topic <?= $topic->getTitle() ?></h1>
 
 <?php
 
@@ -28,6 +28,7 @@ else{
 } ?>
 
 <div class="adder">
+    <div class = "post"></div>
     <form action="index.php?ctrl=forum&action=addMessageToTopic&id=<?= $topic->getId() ?>" method="post">
         <label for="newMessage">Ajoute un nouveau message: </label>
             <input type='text' name="newMessage" value='ex: message par défaut'></input>

@@ -11,7 +11,7 @@ final class User extends Entity{
 
     private $id;
     private $nickName;
-    private $password; // bonne idée ???
+    private $password; 
     private $email;
     private $creationDate;
     private $role;
@@ -29,12 +29,17 @@ final class User extends Entity{
         return $this->role;
     }
 
-///////////////////////////////////////////////////////à voir/ranger / tester
-        public function hasRole($leRole){
-            var_dump('is_called...');die;
-           return ($leRole == $role) ;
-        }
+    public function getAll(){
+        return (get_object_vars($this));
+    }
 
+    /**
+     * has role
+     */
+    public function hasRole($role){
+        return in_array($role, json_decode($this->getRole()));
+    }
+        
 
     /**
      * set Role
