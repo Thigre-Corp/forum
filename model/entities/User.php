@@ -29,6 +29,13 @@ final class User extends Entity{
         return $this->role;
     }
 
+///////////////////////////////////////////////////////à voir/ranger / tester
+        public function hasRole($leRole){
+            var_dump('is_called...');die;
+           return ($leRole == $role) ;
+        }
+
+
     /**
      * set Role
      */

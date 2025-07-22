@@ -54,7 +54,7 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         return [
             "view" => VIEW_DIR."forum/listMessages.php",
-            "meta_description" => "Liste des messages par topic : ".$topic->getTilte(),
+            "meta_description" => "Liste des messages par topic : ".$topic->getTitle(),
             "data" => [
                 "category" => $category,
                 "topic" => $topic,

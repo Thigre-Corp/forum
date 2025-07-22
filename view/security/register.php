@@ -1,7 +1,7 @@
 <h1>Page d'inscription</h1>
 
 <h2>--register.php---</h2>
-        <form action="index.php?ctrl=security&action=registering" method="POST">
+        <form action="index.php?ctrl=security&action=register" method="POST">
             <label for="pseudo">Pseudo</label>
             <input type="text" name="pseudo" id="pseudo"><br>
 
@@ -15,13 +15,3 @@
             <input type="password" name="pass2" id="pass2"><br>
             <input type="submit" value="S'enregister">
         </form>
-
-
-
-        <!--div class="adder">
-    <form action="index.php?ctrl=forum&action=addMessageToTopic&id=<?= $topic->getId() ?>" method="post">
-        <label for="newMessage">Ajoute un nouveau message: </label>
-            <input type='text' name="newMessage" value='ex: message par défaut'></input>
-        <input type='submit' value='add'></input>
-    </form>
-</div-->

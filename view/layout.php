@@ -37,8 +37,8 @@
                             }
                             else{
                                 ?>
-                                <a href="index.php?ctrl=security&action=login">Connexion</a>
-                                <a href="index.php?ctrl=security&action=register">Inscription</a>
+                                <a href="index.php?ctrl=security&action=loginForm">Connexion</a>
+                                <a href="index.php?ctrl=security&action=registerForm">Inscription</a>
                                 <a href="index.php?ctrl=forum&action=index">Liste des catégories</a>
                             <?php
                             }

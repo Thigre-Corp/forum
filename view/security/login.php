@@ -1,7 +1,7 @@
 <h1>Page de login</h1>
 
 <h2>--login.php---</h2>
-        <form action="index.php?ctrl=security&action=logging" method="POST">
+        <form action="index.php?ctrl=security&action=login" method="POST">
             <label for="pseudo">Pseudo</label>
             <input type="text" name="pseudo" id="pseudo"><br>
 
