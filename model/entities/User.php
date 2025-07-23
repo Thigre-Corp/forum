@@ -30,7 +30,7 @@ final class User extends Entity{
     }
 
     public function getAll(){
-        return (get_object_vars($this));
+        return (get_object_vars($this)); 
     }
 
     /**

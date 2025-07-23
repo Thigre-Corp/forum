@@ -116,7 +116,7 @@ class SecurityController extends AbstractController{
     }
 
     public function profile($id = false){
-        Session::addFlash("success", "ici devrait se trouver la page profile");
+        Session::addFlash("success", "Et voilà la page profil");
         if (!$id){
             $id = Session::getUser()->getId();
         }

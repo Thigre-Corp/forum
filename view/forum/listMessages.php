@@ -15,7 +15,7 @@ if (isset($messages)) {
         //var_dump($message);
         ?>
         <div class="Box">
-            <p><?= $message->getContent() ?>  par <?= $message->getUser() ?></p>
+            <p><?= htmlspecialchars_decode($message->getContent()) ?>  par <?= $message->getUser() ?></p>
     </div>
     <?php }
 }
@@ -27,12 +27,15 @@ else{
     <?php 
 } ?>
 
+
+
+
 <div class="adder">
-    <div class = "post"></div>
     <form action="index.php?ctrl=forum&action=addMessageToTopic&id=<?= $topic->getId() ?>" method="post">
         <label for="newMessage">Ajoute un nouveau message: </label>
-            <input type='text' name="newMessage" value='ex: message par défaut'></input>
+            <input class = "post" type='text' name="newMessage" value='ex: message par défaut'></input>
         <input type='submit' value='add'></input>
     </form>
 </div>
 
+<div style="margin: 3em;"></div>
