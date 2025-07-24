@@ -39,4 +39,26 @@ class UserManager extends Manager{
             $this->className
         );
     }
+
+    public function updateUser($id, $data){
+        $string = '';
+        
+        foreach($data as $key=> $value){
+            $string = $string.$key. " = '".$value."', ";
+        }
+        $string = (substr($string,0,strlen($string)-2));
+
+        $sql = "
+            UPDATE ".$this->tableName."
+            SET ".$string."
+
+            WHERE id_user = :id
+        ";
+
+        DAO::update($sql, ['id' => $id], false);
+        return ;
+
+    }
+
+
 }

@@ -15,6 +15,8 @@ final class User extends Entity{
     private $email;
     private $creationDate;
     private $role;
+    
+    public const USER_ROLE = ['ROLE_ADMIN', 'ROLE_USER'];
 
 
     public function __construct($data){         

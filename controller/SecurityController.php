@@ -1,6 +1,7 @@
 <?php
 namespace Controller;
 
+use Model\Entities\User;
 use App\DAO;
 use App\Session;
 use App\AbstractController;
@@ -130,6 +131,47 @@ class SecurityController extends AbstractController{
                 "user" => $user->getAll()
             ]
         ];
+    }
+
+    public function modUser($id){
+        $userManager = new UserManager();
+
+        if( isset($_POST['suppr'])){
+            if ($_POST['suppr'] === 'on' ){
+                $userManager->delete($id);
+                Session::logOff();
+                Session::addFlash("success", "Suppression de l'utilisateur");
+                $this->redirectTo("home");
+            }
+        }
+        $userDataDB = $userManager->findOneById($id)->getAll();
+        $userDataDB['role'] = str_replace(['"', "[",  "]", "'"], "" , $userDataDB['role']);
+
+        $pseudo = filter_input(INPUT_POST, "nickName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
+        //$creationDate = filter_input(INPUT_POST, "creationDate", FILTER_VALIDATE_REGEXP,array("options" => array("regexp"=>'/[A-Za-z0-9]{6,32}/')));
+        $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ( $pseudo == "") {
+            $pseudo =  $userDataDB['nickName'];
+        }
+        if ($email == "" || $userManager->checkIfExists($email)) {
+            $email = $userDataDB['email'];
+        }
+        $creationDate = $userDataDB['creationDate']; // je force l'absence de modification pour conserver la simplicité de l'exercice.
+        if(!in_array($role, User::USER_ROLE)){
+            $role = $userDataDB['role'];
+        }
+        $data = [
+            "nickName" => $pseudo,
+            "email" => $email,
+            "creationDate" => $creationDate,
+            "role" => json_encode($role)
+        ];
+
+        $userManager->updateUser($id, $data);
+
+        Session::addFlash("success", "Modification réalisée avec succès");
+        $this->redirectTo("home");
     }
 
 

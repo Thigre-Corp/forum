@@ -33,6 +33,11 @@ class Session{
         $_SESSION["user"] = $user;
     }
 
+
+    public static function logOff(){
+        $_SESSION["user"] = "";
+    }
+    
     public static function getUser(){
         return (isset($_SESSION['user'])) ? $_SESSION['user'] : false;
     }
