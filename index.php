@@ -16,6 +16,10 @@ Autoloader::register();
 
 //démarre une session ou récupère la session actuelle
 session_start();
+if (!(isset($_SESSION["cestSReffe"]))) {
+    $_SESSION["cestSReffe"] = md5(bin2hex(random_bytes(16)));
+}
+
 //et on intègre la classe Session qui prend la main sur les messages en session
 use App\Session as Session;
 

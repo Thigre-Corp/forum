@@ -29,6 +29,10 @@ class SecurityController extends AbstractController{
     public function login(){
         $userManager = new UserManager() ;
 
+        if ($_SESSION["cestSReffe"] != $_POST['cestSReffe']){
+            Session::addFlash("error", "loupé CSRF!");
+            $this->redirectTo("security", "registerForm");
+        }
         $pseudo= filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $pass1= filter_input(INPUT_POST, "pass1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
