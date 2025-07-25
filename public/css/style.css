@@ -1,7 +1,17 @@
+:root {
+    --MainColor : lch(94.8% 0.01 296.81);
+    --h1Color : oklch(from var(--MainColor) 30% c calc(h*2));
+    --texColor: oklch(from var(--h1Color) calc(l*1.15) c h);
+}
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: var(--MainColor);
+    color: var(--texColor);
+
 }
 
 body{
@@ -12,7 +22,8 @@ body{
 }
 
 h1 {
-    color: rgb(0, 122, 156);
+    color: var(--h1Color); 
+     /* rgb(0, 122, 156); */
 }
 
 .profile{
