@@ -148,22 +148,22 @@ class SecurityController extends AbstractController{
         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         
-        $test1 = $userManager->checkIfExists($email);
-        if ($test1){
-            ($test1->getId() != $_SESSION['user']->getId()) ? $test1 = true : $test1=false ;
+        $mailEstUnique = $userManager->checkIfExists($email);
+        if ($mailEstUnique){
+            ($mailEstUnique->getId() != Session::getUser()->getId()) ? $mailEstUnique = true : $mailEstUnique=false ;
         }
 
-        $test2 = $userManager->checkIfPseudoExists($pseudo);
-        if ($test2){
-            ($test2->getId() != $_SESSION['user']->getId()) ? $test2 = true : $test2=false ;
+        $pseudoEstUnique = $userManager->checkIfPseudoExists($pseudo);
+        if ($pseudoEstUnique){
+            ($pseudoEstUnique->getId() != Session::getUser()->getId()) ? $pseudoEstUnique = true : $pseudoEstUnique=false ;
         }
 
         if ( 
             $pseudo == "" 
             || $email == ""  
             || (!in_array($role, User::USER_ROLE)) 
-            || ($test2)
-            || ($test1) 
+            || ($mailEstUnique)
+            || ($pseudoEstUnique) 
             ){
             Session::addFlash("error", "Donnée(s) invalide(s)");
             $this->redirectTo("security", "profile");

@@ -1,6 +1,7 @@
 <?php
 namespace Model\Managers;
 
+use App\Session;
 use App\Manager;
 use App\DAO;
 
@@ -68,9 +69,9 @@ class UserManager extends Manager{
         ";
 
         DAO::update($sql, ['id' => $id], false);
-        if  ($id == $_SESSION["user"]->getId()){
+        if  ($id == Session::getUser()->getId()){
             $user = $this->findOneById($id);
-            $_SESSION["user"] = $user;
+            Session::setUser($user);
         }
 
         return $user;
