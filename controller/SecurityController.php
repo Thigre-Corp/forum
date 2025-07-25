@@ -37,37 +37,23 @@ class SecurityController extends AbstractController{
         $pass1= filter_input(INPUT_POST, "pass1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if ($pseudo && $pass1){
-
-         $user=   $userManager->findOneByPseudo($pseudo);
-
-
-            // var_dump($user);
-            // die;
-            // $sql = "
-            //     SELECT *
-            //     FROM user
-            //     WHERE nickName = :pseudo
-            //     ";
-            // $userData = DAO::select($sql, [":pseudo" => $pseudo], false );
-           
-
+            $user=   $userManager->findOneByPseudo($pseudo);
             if(password_verify($pass1, $user->getPassword())){                 // là, nous sommes connectés.. on démarre la session ?
                 
                 Session::setUser($user);
                 Session::addFlash("success", "user logged In");
                 $this->redirectTo("home");
             }
-
             else{
                 Session::addFlash("error", "loupé!");
                 $this->redirectTo("security", "registerForm");
             }
-
             return [                                                            // une fois le user logger, direction la homePage.
                 "view" => VIEW_DIR."/home.php",
                 "meta_description" => "Page d'accueil"
                 ];
         }
+
         $this->redirectTo("security", "loginForm");
         // redirect to
     }
@@ -121,7 +107,8 @@ class SecurityController extends AbstractController{
     }
 
     public function profile($id = false){
-        Session::addFlash("success", "Et voilà la page profil");
+
+        Session::addFlash("success", "Bienvenue sur la page profil");
         if (!$id){
             $id = Session::getUser()->getId();
         }
@@ -132,13 +119,18 @@ class SecurityController extends AbstractController{
             "view" => VIEW_DIR."security/profile.php",
             "meta_description" => "Profil utilisateur ",
             "data" => [
-                "user" => $user->getAll()
+                "user" => $user //->getAll()
             ]
         ];
     }
 
     public function modUser($id){
         $userManager = new UserManager();
+
+        if ($_SESSION["cestSReffe"] != $_POST['cestSReffe']){
+            Session::addFlash("error", "loupé CSRF!");
+            $this->redirectTo("security", "logout");
+        }
 
         if( isset($_POST['suppr'])){
             if ($_POST['suppr'] === 'on' ){
@@ -148,32 +140,44 @@ class SecurityController extends AbstractController{
                 $this->redirectTo("home");
             }
         }
+
         $userDataDB = $userManager->findOneById($id)->getAll();
         $userDataDB['role'] = str_replace(['"', "[",  "]", "'"], "" , $userDataDB['role']);
 
         $pseudo = filter_input(INPUT_POST, "nickName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
-        //$creationDate = filter_input(INPUT_POST, "creationDate", FILTER_VALIDATE_REGEXP,array("options" => array("regexp"=>'/[A-Za-z0-9]{6,32}/')));
         $role = filter_input(INPUT_POST, "role", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if ( $pseudo == "") {
-            $pseudo =  $userDataDB['nickName'];
+        
+        $test1 = $userManager->checkIfExists($email);
+        if ($test1){
+            ($test1->getId() != $_SESSION['user']->getId()) ? $test1 = true : $test1=false ;
         }
-        if ($email == "" || $userManager->checkIfExists($email)) {
-            $email = $userDataDB['email'];
+
+        $test2 = $userManager->checkIfPseudoExists($pseudo);
+        if ($test2){
+            ($test2->getId() != $_SESSION['user']->getId()) ? $test2 = true : $test2=false ;
         }
-        $creationDate = $userDataDB['creationDate']; // je force l'absence de modification pour conserver la simplicité de l'exercice.
-        if(!in_array($role, User::USER_ROLE)){
-            $role = $userDataDB['role'];
+
+        if ( 
+            $pseudo == "" 
+            || $email == ""  
+            || (!in_array($role, User::USER_ROLE)) 
+            || ($test2)
+            || ($test1) 
+            ){
+            Session::addFlash("error", "Donnée(s) invalide(s)");
+            $this->redirectTo("security", "profile");
+
         }
+
         $data = [
             "nickName" => $pseudo,
             "email" => $email,
-            "creationDate" => $creationDate,
-            "role" => json_encode($role)
+            "role" => json_encode(array($role))
         ];
 
-        $userManager->updateUser($id, $data);
-
+        $user = $userManager->updateUser($id, $data);
+        
         Session::addFlash("success", "Modification réalisée avec succès");
         $this->redirectTo("home");
     }

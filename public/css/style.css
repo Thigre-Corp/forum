@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+body{
+        margin: 3em;
+        header{
+            margin-bottom: 3em;
+        }
+}
+
 h1 {
     color: rgb(0, 122, 156);
 }
@@ -17,7 +24,24 @@ h1 {
 .Box{
     border: 1px solid black;
     width: 80%;
+    margin: auto;
     margin-bottom: 1em;
+}
+
+
+.inLineCards{
+    display: flex;
+    flex-direction: row;
+}
+
+.userCard{
+    display: flex;
+    flex-direction: column;
+}
+
+.postCard{
+    display: flex;
+    flex-direction: column;
 }
 
 

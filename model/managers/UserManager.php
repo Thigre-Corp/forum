@@ -27,6 +27,19 @@ class UserManager extends Manager{
         );
     }
 
+    public function checkIfPseudoExists($pseudo){
+
+        $sql = "
+                SELECT * 
+                FROM ".$this->tableName." t 
+                WHERE t.nickName = :pseudo";
+       
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['pseudo' => $pseudo], false), 
+            $this->className
+        );
+    }
+
     public function findOneByPseudo($pseudo){
 
         $sql = "
@@ -51,12 +64,16 @@ class UserManager extends Manager{
         $sql = "
             UPDATE ".$this->tableName."
             SET ".$string."
-
             WHERE id_user = :id
         ";
 
         DAO::update($sql, ['id' => $id], false);
-        return ;
+        if  ($id == $_SESSION["user"]->getId()){
+            $user = $this->findOneById($id);
+            $_SESSION["user"] = $user;
+        }
+
+        return $user;
 
     }
 

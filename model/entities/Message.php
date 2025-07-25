@@ -82,7 +82,8 @@ final class Message extends Entity{
      * Get user
      */
     public function getUser(){
-        return $this->user;
+        //var_dump($this->user );
+        return ($this->user) ? $this->user : "-utilisateur inconnu-";
     }
 
     /**

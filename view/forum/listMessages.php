@@ -11,11 +11,15 @@
 
 if (isset($messages)) {
     foreach($messages as $message ){ 
-        
-        //var_dump($message);
+
         ?>
-        <div class="Box">
-            <p><?= htmlspecialchars_decode($message->getContent()) ?>  par <?= $message->getUser() ?></p>
+        <div class="Box inLineCards">
+            <div class="Box userCard">
+                <?= $message->getUser() ?>
+            </div>
+            <div class= "Box postCard">
+                <?= htmlspecialchars_decode($message->getContent()) ?>
+            </div>
     </div>
     <?php }
 }
