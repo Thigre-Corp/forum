@@ -1,3 +1,13 @@
+:root{
+    --bgColor: #ffffff;
+    --fontColor: #000000;
+    --accentColor: #F000F0;
+    --footerColor: #eF1234;
+    --fontSmall: 1rem;
+    --fontMedium: 1.4rem;
+    --fontLarge: 2rem;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +15,25 @@
 }
 
 h1 {
-    color: rgb(0, 122, 156);
+    font-size: var(--fontLarge);
+    color: var(--accentColor);
+}
+
+nav{
+    position: fixed;
+    top:0; 
+    left:0;
+    right: 0;
+    background-color: var(--footerColor);
+    font-weight: var(--fontMedium);
+    #nav-left{
+        position:absolute;
+        left: 0;
+    }
+    #nav-right{
+        position: absolute;
+        right:0;
+    }
 }
 
 .profile{
@@ -24,4 +52,19 @@ h1 {
 footer{
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--footerColor);
+    text-align: center;
+    color: var(--fontColor);
+    font-size: 1rem;
+    padding: .5rem;
+    a{
+        color: var(--fontColor);
+        text-decoration: none;
+    }
+    a:hover{
+        color: var(--bgColor);
+        font-weight: bold;
+    }
 }
