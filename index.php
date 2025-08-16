@@ -16,6 +16,7 @@ Autoloader::register();
 
 //démarre une session ou récupère la session actuelle
 session_start();
+//création du token CSRF
 if (!(isset($_SESSION["cestSReffe"]))) {
     $_SESSION["cestSReffe"] = md5(bin2hex(random_bytes(16)));
 }
@@ -56,6 +57,7 @@ if($action == "ajax"){ //si l'action était ajax
     //on affiche directement le return du contrôleur (càd la réponse HTTP sera uniquement celle-ci)
     echo $result;
 }
+
 else{
     ob_start();//démarre un buffer (tampon de sortie)
     $meta_description = $result['meta_description'];

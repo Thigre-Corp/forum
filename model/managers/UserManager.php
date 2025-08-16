@@ -1,6 +1,7 @@
 <?php
 namespace Model\Managers;
 
+use App\Session;
 use App\Manager;
 use App\DAO;
 
@@ -23,6 +24,19 @@ class UserManager extends Manager{
        
         return $this->getOneOrNullResult(
             DAO::select($sql, ['email' => $email], false), 
+            $this->className
+        );
+    }
+
+    public function checkIfPseudoExists($pseudo){
+
+        $sql = "
+                SELECT * 
+                FROM ".$this->tableName." t 
+                WHERE t.nickName = :pseudo";
+       
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['pseudo' => $pseudo], false), 
             $this->className
         );
     }
@@ -51,12 +65,16 @@ class UserManager extends Manager{
         $sql = "
             UPDATE ".$this->tableName."
             SET ".$string."
-
             WHERE id_user = :id
         ";
 
         DAO::update($sql, ['id' => $id], false);
-        return ;
+        if  ($id == Session::getUser()->getId()){
+            $user = $this->findOneById($id);
+            Session::setUser($user);
+        }
+
+        return $user;
 
     }
 

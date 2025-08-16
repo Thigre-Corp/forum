@@ -12,52 +12,53 @@
     </head>
     <body>
         <div id="wrapper"> 
-            <div id="mainpage">
+            <div id="msgBox">
                 <!-- c'est ici que les messages (erreur ou succès) s'affichent-->
                 <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
                 <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
-
-                <header>
-                    <nav>
-                        <div id="nav-left">
-                            <a href="index.php">Accueil</a>
-                            <?php
-                            if(App\Session::isAdmin()){
-                                ?>
-                                <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a>
-                            <?php
-                         } 
-                         ?>
-                        </div>
-                        <div id="nav-right">
-                        <?php
-                            // si l'utilisateur est connecté 
-                            if(App\Session::getUser()){
-                                ?>
-                                <a href="index.php?ctrl=security&action=profile"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()->getNickName()?></a>
-                                <a href="index.php?ctrl=security&action=logout">Déconnexion</a>
-                                <a href="index.php?ctrl=forum&action=index">Liste des catégories</a>
-                                <?php
-                            }
-                            else{
-                                ?>
-                                <a href="index.php?ctrl=security&action=loginForm">Connexion</a>
-                                <a href="index.php?ctrl=security&action=registerForm">Inscription</a>
-                            <?php
-                            }
-                        ?>
-                        </div>
-                    </nav>
-                </header>
-                
-                <main id="forum">
-                    <?= $page ?>
-                </main>
             </div>
-            <footer>
-                <p>&copy; <?= date_create("now")->format("Y") ?> - <a href="#">Règlement du forum</a> - <a href="#">Mentions légales</a></p>
+            <header>
+                <nav>
+                    <div id="nav-left">
+                        <a href="index.php">Accueil</a>
+                        <?php
+                        if(App\Session::isAdmin()){
+                            ?>
+                            <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a>
+                        <?php
+                        } 
+                        ?>
+                    </div>
+                    <div id="nav-right">
+                    <?php
+                        // si l'utilisateur est connecté 
+                        if(App\Session::getUser()){
+                            ?>
+                            <a href="index.php?ctrl=security&action=profile" class="fas fa-user">&nbsp;<?= App\Session::getUser()->getNickName()?></a>
+                            <a href="index.php?ctrl=security&action=logout">Déconnexion</a>
+                            <a href="index.php?ctrl=forum&action=index">Liste des catégories</a>
+                            <?php
+                        }
+                        else{
+                            ?>
+                            <a href="index.php?ctrl=security&action=loginForm">Connexion</a>
+                            <a href="index.php?ctrl=security&action=registerForm">Inscription</a>
+                        <?php
+                        }
+                    ?>
+                    </div>
+                </nav>
+            </header>
+                
+            <main id="forum">
+                <?= $page ?>
+            </main>
+
+            <footer class='pizza'>
+                    <p>&copy; <?= date_create("now")->format("Y") ?> - <a href="#">Règlement du forum</a> - <a href="#">Mentions légales</a></p>
             </footer>
         </div>
+
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root{
     --bgColor: #ffffff;
     --fontColor: #000000;
@@ -8,13 +9,52 @@
     --fontLarge: 2rem;
 }
 
+=======
+:root {
+    --MainColor : lch(57.13% 56 26.82 / 0.322);
+    --h1Color : oklch(from var(--MainColor) 20% c calc(h*1.3));
+    --textColor: oklch(from var(--h1Color)  30% calc(c+0.2) 360);
+}
+
+
+>>>>>>> bcd8a83329991c99fe6a46075dad25a05252820a
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: var(--MainColor);
+    color: var(--textColor);
+
+}
+
+header{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    *{
+        display: inherit;
+        padding: 1em;
+    }
+}
+
+body{
+        margin: 3em;
+        header{
+            margin-bottom: 3em;
+        }
+}
+
+footer{
+    z-index: 3;
+    position: fixed;
+    bottom: 10px ;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 h1 {
+<<<<<<< HEAD
     font-size: var(--fontLarge);
     color: var(--accentColor);
 }
@@ -34,6 +74,9 @@ nav{
         position: absolute;
         right:0;
     }
+=======
+    color: var(--h1Color); 
+>>>>>>> bcd8a83329991c99fe6a46075dad25a05252820a
 }
 
 .profile{
@@ -45,10 +88,28 @@ nav{
 .Box{
     border: 1px solid black;
     width: 80%;
+    margin: auto;
     margin-bottom: 1em;
 }
 
+.inLineCards{
+    display: flex;
+    flex-direction: row;
+}
 
+.userCard{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.postCard{
+    display: flex;
+    flex-direction: column;
+}
+
+
+<<<<<<< HEAD
 footer{
     position: fixed;
     bottom: 0;
@@ -68,3 +129,5 @@ footer{
         font-weight: bold;
     }
 }
+=======
+>>>>>>> bcd8a83329991c99fe6a46075dad25a05252820a
